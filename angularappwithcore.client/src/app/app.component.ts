@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { PostService } from './services/post.service'; 
 
 interface WeatherForecast {
   date: string;
@@ -10,29 +12,18 @@ interface WeatherForecast {
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  templateUrl: './app.component.html', 
   standalone: false,
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  public forecasts: WeatherForecast[] = [];
-
-  constructor(private http: HttpClient) {}
+  allPosts: any[] = [];
+  constructor(private postService: PostService) { }
 
   ngOnInit() {
-    this.getForecasts();
+    this.postService.getPosts().subscribe((response: any) => {
+      this.allPosts = response;
+      console.log(this.allPosts);
+    });
   }
-
-  getForecasts() {
-    this.http.get<WeatherForecast[]>('/weatherforecast').subscribe(
-      (result) => {
-        this.forecasts = result;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  }
-
-  title = 'angularappwithcore.client';
 }
