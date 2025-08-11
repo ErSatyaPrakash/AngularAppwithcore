@@ -19,7 +19,6 @@ interface WeatherForecast {
 export class AppComponent implements OnInit {
 
 
-  items = ['Apple', 'Banana', 'Cherry'];
 
   allPosts: any[] = [];
   constructor(private postService: PostService) { }
